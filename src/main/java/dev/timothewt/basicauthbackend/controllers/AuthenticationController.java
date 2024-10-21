@@ -8,10 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -27,7 +24,6 @@ public class AuthenticationController {
         @RequestBody RegisterRequest request,
         HttpServletResponse response
     ) {
-        // Pass the HttpServletResponse to set the refresh token cookie in the service
         return ResponseEntity.ok(authenticationService.register(request, response));
     }
 
@@ -36,11 +32,10 @@ public class AuthenticationController {
         @RequestBody AuthenticationRequest request,
         HttpServletResponse response
     ) {
-        // Pass the HttpServletResponse to set the refresh token cookie in the service
         return ResponseEntity.ok(authenticationService.authenticate(request, response));
     }
 
-    @PostMapping("/refresh-token")
+    @GetMapping("/refresh")
     public void refreshToken(
         HttpServletResponse response,
         HttpServletRequest request

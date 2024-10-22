@@ -27,6 +27,8 @@ public class AuthenticationService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    @Value("${auth.passwordSalt}")
+    private String passwordSalt;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     @Value("${jwt.refreshExpirationTimeMs}")
@@ -39,7 +41,7 @@ public class AuthenticationService {
         User user  = User.builder()
             .username(request.getUsername())
             .email(request.getEmail())
-            .password(passwordEncoder.encode(request.getPassword()))
+            .password(passwordEncoder.encode(request.getPassword() + passwordSalt))
             .role(Role.USER)
             .build();
         userRepository.save(user);
@@ -60,7 +62,7 @@ public class AuthenticationService {
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                 request.getUsername(),
-                request.getPassword()
+                request.getPassword() + passwordSalt
             )
         );
         User user = userRepository.findByUsername(request.getUsername())

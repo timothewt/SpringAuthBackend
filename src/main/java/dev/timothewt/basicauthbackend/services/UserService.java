@@ -26,6 +26,8 @@ public class UserService {
         if (userRepository.findByUsername(authenticatedUser.getUsername()).isEmpty())
             throw new UserNotFoundException("User not found");
 
+        authenticatedUser.setPassword(null);
+
         return authenticatedUser;
     }
 

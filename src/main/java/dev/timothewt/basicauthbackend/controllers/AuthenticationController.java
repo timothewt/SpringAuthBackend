@@ -42,4 +42,12 @@ public class AuthenticationController {
     ) throws IOException {
         authenticationService.refreshToken(request, response);
     }
+
+    @PostMapping("/logout")
+    public void logout(
+        HttpServletResponse response,
+        HttpServletRequest request
+    ) {
+        authenticationService.logout(request, response);
+    }
 }

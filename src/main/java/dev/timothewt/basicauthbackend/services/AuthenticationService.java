@@ -124,6 +124,13 @@ public class AuthenticationService {
         new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
     }
 
+    public void logout(
+        HttpServletRequest request,
+        HttpServletResponse response
+    ) {
+        setRefreshTokenCookie(response, null);
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
 
     private void setRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
         Cookie cookie = new Cookie("refresh_token", refreshToken);
